@@ -1,90 +1,58 @@
----
-# Dataset Card
----
+# Dataset Card for Cotton Growth and Yield Data from Bushland, Texas
 
-# Dataset Card for {{ pretty_name | default("Dataset Name", true) }}
-
-<!-- Provide a quick summary of the dataset. -->
-
-{{ dataset_summary | default("", true) }}
+## Dataset Summary
+This dataset, sourced from the USDA Ag Data Commons, contains **field-measured growth and yield data** for upland cotton *(Gossypium hirsutum L.)* grown in Bushland, Texas. It is widely used in agricultural water use research, crop modeling, and irrigation optimization studies, especially in semi-arid environments.
 
 ## Dataset Details
 
 ### Dataset Description
+- **Title:** Growth and Yield Data for the Bushland, Texas, Cotton Datasets  
+- **Source:** USDA National Agricultural Library Ag Data Commons  
+- **Collected by:** USDA-ARS Conservation & Production Research Laboratory, Soil and Water Management Research Unit  
+- **URL:** https://agdatacommons.nal.usda.gov/... *(dataset entry)*  
+- **Licence:** Open public research use (USDA data)
 
-<!-- Provide a longer summary of what this dataset is. -->
+This dataset documents cotton growth and yield across multiple seasons under varying irrigation treatments, including full irrigation and deficit irrigation protocols. :contentReference[oaicite:4]{index=4}
 
-{{ dataset_description | default("", true) }}
+### Dataset Structure
+The dataset is typically **tabular** (e.g., Excel or CSV format) with observations from multiple growing seasons. Variables include:
 
-- **Curated by:** {{ curators | default("[More Information Needed]", true)}}
-- **License:** {{ license | default("[More Information Needed]", true)}}
+| Category | Examples |
+|----------|----------|
+| Field metadata | Year, Field ID, Irrigation type |
+| Crop growth metrics | Plant height, leaf area index, growth stage |
+| Yield components | Lint mass, seed mass, final yield, fiber quality |
+| Biomass metrics | Total above-ground biomass, leaf/stem biomass |
+| Irrigation data | Irrigation amount (full vs. deficit) |
+| Environmental context | Soil moisture, weather/context (if available) |
 
-### Dataset Sources [optional]
-
-<!-- Provide the basic links for the dataset. -->
-
-- **Repository:** {{ repo | default("[More Information Needed]", true)}}
-- **Paper [optional]:** {{ paper | default("[More Information Needed]", true)}}
-- **Demo [optional]:** {{ demo | default("[More Information Needed]", true)}}
+Data may come as **multiple sheets** representing seasons, replications, or sub-plots. :contentReference[oaicite:5]{index=5}
 
 ## Uses
+This dataset supports:
+- Predictive modeling of cotton water demand and irrigation scheduling
+- Crop water productivity and evapotranspiration analysis
+- Comparative irrigation strategy evaluation (full vs deficit)
+- Calibration and testing of agronomic water use models
 
-<!-- Address questions around how the dataset is intended to be used. -->
-
-### Direct Use
-
-<!-- This section describes suitable use cases for the dataset. -->
-
-{{ direct_use | default("[More Information Needed]", true)}}
-
-
-## Dataset Structure
-
-<!-- This section provides a description of the dataset fields, and additional information about the dataset structure such as criteria used to create the splits, relationships between data points, etc. -->
-
-{{ dataset_structure | default("[More Information Needed]", true)}}
-
-## Dataset Creation
-
+## Dataset Creation & Collection
 ### Source Data
+Data were collected via **field experiments** on lysimeter plots within a larger cotton field layout in Bushland, Texas. Measurements included both destructive and non-destructive sampling, alongside soil moisture and irrigation treatments. :contentReference[oaicite:6]{index=6}
 
-<!-- This section describes the source data (e.g. news text and headlines, social media posts, translated sentences, ...). -->
+### Data Processing
+- Data cleaning (handling missing values)
+- Consistent formatting across years
+- Aligning dates and season metadata
+- Standardization of units
 
-#### Data Collection and Processing
+### Annotations
+Annotations are inherent dataset metrics collected and labeled during field experiments; no manual post-labeling is required beyond experimental design metadata.
 
-<!-- This section describes the data collection and processing process such as data selection criteria, filtering and normalization methods, tools and libraries used, etc. -->
+## Biases, Risks, and Limitations
+- Data are from a **specific semi-arid region** (Bushland, TX) and might not generalize to all cotton-growing regions.
+- The dataset includes specific irrigation methods and may lack other modern irrigation technologies.
+- Environmental data granularity may vary by year and field.
 
-{{ data_collection_and_processing_section | default("[More Information Needed]", true)}}
-
-#### Features and the target
-
-<!-- This section describes the features of the dataset and the target of the project -->
-
-### Annotations [optional]
-
-<!-- If the dataset contains annotations which are not part of the initial data collection, use this section to describe them. -->
-
-#### Annotation process
-
-<!-- This section describes the annotation process such as annotation tools used in the process, the amount of data annotated, annotation guidelines provided to the annotators, interannotator statistics, annotation validation, etc. -->
-
-{{ annotation_process_section | default("[More Information Needed]", true)}}
-
-#### Who are the annotators?
-
-<!-- This section describes the people or systems who created the annotations. -->
-
-{{ who_are_annotators_section | default("[More Information Needed]", true)}}
-
-
-## Bias, Risks, and Limitations
-
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
-
-{{ bias_risks_limitations | default("[More Information Needed]", true)}}
-
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the dataset, the APA and Bibtex information for that should go in this section. -->
-
+## Citation
+Please cite this dataset if used:
+> Evett, S.R., Marek, G.W., Copeland, K.S., Howell, T.A., Colaizzi, P.D., Brauer, D.K., Ruthardt, B.B. (2023). *Growth and Yield Data for the Bushland, Texas, Cotton Datasets.* USDA Ag Data Commons. :contentReference[oaicite:7]{index=7}
