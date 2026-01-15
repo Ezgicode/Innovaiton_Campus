@@ -1,173 +1,147 @@
+# 🌱 Cotton Evapotranspiration (ET) Prediction Model
+### Data-Driven Irrigation Water Optimization
+
+## 📌 Project Overview
+This project focuses on predicting **daily evapotranspiration (ET)** for cotton fields using meteorological and seasonal variables. Evapotranspiration is a critical indicator of crop water demand, and accurate estimation enables **efficient irrigation planning** and **significant water savings** in agriculture.
+
+The model is trained on **real-world field experiment data** collected under controlled irrigation conditions and is designed to operate with **live weather data** during deployment. This makes the system suitable for real-world decision support in precision agriculture.
+
 ---
-# MODEL CARD
 
-# Model Card for {{ model_id | default("Model ID", true) }}
+## 🎯 Project Objectives
+The main objectives of this project are:
+- To predict daily evapotranspiration (ET) for cotton crops
+- To support sustainable and water-efficient irrigation strategies
+- To demonstrate how machine learning can be applied to real agricultural problems
+- To bridge academic research with real-world deployment scenarios
 
-<!-- Provide a quick summary of what the model is/does. -->
+---
 
-{{ model_summary | default("", true) }}
+## 📊 Dataset
+The model is trained using the **Growth and Yield Data for the Bushland, Texas, Cotton Datasets**, published by the **USDA Ag Data Commons**.
 
-## Model Details
+This dataset is based on multi-year field experiments conducted in Bushland, Texas, a semi-arid cotton-growing region. It includes cotton growth, yield, and meteorological measurements collected under different irrigation treatments.
 
-### Model Description
+**Key characteristics of the dataset:**
+- Multi-year observations
+- Semi-arid climate conditions
+- Real field-scale experimental data
+- Widely used in agricultural water management research
 
-<!-- Provide a longer summary of what this model is. -->
+The dataset is used **only during the training phase** to ensure reproducibility and scientific validity.
 
-{{ model_description | default("", true) }}
+---
 
-- **Developed by:** {{ developers | default("[More Information Needed]", true)}}
-- **Model date:** {{ model_date | default("[More Information Needed]", true)}}
-- **Model type:** {{ model_type | default("[More Information Needed]", true)}}
-- **Language(s):** {{ language | default("[More Information Needed]", true)}}
-- **Finetuned from model [optional]:** {{ base_model | default("[More Information Needed]", true)}}
+## 🧠 Model Description
+The evapotranspiration prediction model is implemented as a supervised regression pipeline.
 
-### Model Sources [optional]
+**Model details:**
+- **Model type:** Ridge Regression (L2-regularized linear regression)
+- **Pipeline structure:**
+  - StandardScaler for feature normalization
+  - Ridge Regression with regularization parameter α = 1.0
+- **Target variable:** Evapotranspiration (ET)
+- **Programming language:** Python
+- **ML framework:** scikit-learn
 
-<!-- Provide the basic links for the model. -->
+Ridge Regression was selected to balance predictive performance and interpretability while controlling overfitting.
 
-- **Repository:** {{ repo | default("[More Information Needed]", true)}}
-- **Paper [optional]:** {{ paper | default("[More Information Needed]", true)}}
-- **Demo [optional]:** {{ demo | default("[More Information Needed]", true)}}
+---
 
-## Uses
+## 🧮 Input Features
+The model uses the following input features:
 
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
+- Year  
+- Air temperature (°C)  
+- Relative humidity (%)  
+- Solar radiation (Rs, MJ/m²)  
+- Net radiation (Rn, MJ/m²)  
+- Wind speed at 2 meters (m/s)  
+- Seasonal encoding of Day of Year (DOY) using sine and cosine transformations  
 
-### Direct Use
+Seasonal encoding of DOY allows the model to capture annual climatic cycles smoothly without introducing artificial discontinuities.
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
+---
 
-{{ direct_use | default("[More Information Needed]", true)}}
+## 🔁 Training Procedure
+The training workflow consists of the following steps:
+- Data cleaning and column normalization
+- Removal of rows with missing values
+- Seasonal transformation of DOY into sine and cosine components
+- Train/test split with an 80% / 20% ratio
+- Fixed random seed (42) for reproducibility
 
-### Downstream Use [optional]
+---
 
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
+## 📈 Model Evaluation
+The model performance is evaluated using standard regression metrics:
 
-{{ downstream_use | default("[More Information Needed]", true)}}
+- **Mean Absolute Error (MAE)**
+- **R² Score**
 
-### Out-of-Scope Use
+Evaluation is performed on a held-out test set. The results indicate stable performance in predicting evapotranspiration under typical cotton-growing conditions.
 
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
+---
 
-{{ out_of_scope_use | default("[More Information Needed]", true)}}
+## 🌍 Live Data Integration (API Usage)
+During deployment, the model can retrieve **meteorological input variables** (such as temperature, humidity, radiation, and wind speed) from **external weather data APIs**.
 
-## Bias, Risks, and Limitations
+**Important clarification:**
+- External APIs are used **only at inference time**
+- No API-based data is used during model training
+- API keys, tokens, and provider-specific details are not stored or shared in this repository
 
-<!-- This section is meant to convey both technical and sociotechnical limitations. -->
+This design ensures both **reproducible training** and **real-time applicability** in operational environments.
 
-{{ bias_risks_limitations | default("[More Information Needed]", true)}}
+---
 
-### Recommendations
+## ⚠️ Limitations
+- The model is trained on data from a single semi-arid region (Bushland, Texas)
+- Performance may decrease under extreme or previously unseen climatic conditions
+- Predictions depend on the accuracy and availability of external weather data during deployment
+- Linear assumptions may limit performance in highly nonlinear climate–crop interactions
 
-<!-- This section is meant to convey recommendations with respect to the bias, risk, and technical limitations. -->
+---
 
-{{ bias_recommendations | default("Users (both direct and downstream) should be made aware of the risks, biases and limitations of the model. More information needed for further recommendations.", true)}}
+## ✅ Recommendations
+- Model predictions should be validated with local agronomic expertise before real-world use
+- Retraining is recommended when applying the model to different regions or crops
+- The model should be used as a decision-support tool, not as a fully autonomous irrigation controller
 
-## How to Get Started with the Model
+---
 
-Use the code below to get started with the model.
+## 🚀 Getting Started
 
-{{ get_started_code | default("[More Information Needed]", true)}}
+python
+import joblib
+import pandas as pd
+import numpy as np
 
-## Training Details
+model = joblib.load("cotton_et_model2.pkl")
 
-### Training Data
+input_data = pd.DataFrame([{
+    "Year": 2020,
+    "NW Air Temp in degrees C": 25,
+    "NW RH in %": 45,
+    "NW Rs in MJ/m^2": 20,
+    "NW Rn in MJ/m^2": 15,
+    "NW 2-m Wind Speed in m/s": 3,
+    "DOY_sin": np.sin(2 * np.pi * 180 / 365),
+    "DOY_cos": np.cos(2 * np.pi * 180 / 365)
+}])
 
-<!-- This should link to a Dataset Card, perhaps with a short stub of information on what the training data is all about as well as documentation related to data pre-processing or additional filtering. -->
+prediction = model.predict(input_data)
 
-{{ training_data | default("[More Information Needed]", true)}}
+##Technologies Used
 
-### Training Procedure
+This project was developed using:
 
-<!-- This relates heavily to the Technical Specifications. Content here should link to that section when it is relevant to the training procedure. -->
+Python
 
-#### Preprocessing [optional]
+Pandas
 
-{{ preprocessing | default("[More Information Needed]", true)}}
+NumPy
 
+Scikit-learn
 
-#### Training Hyperparameters
-
-- **Training regime:** {{ training_regime | default("[More Information Needed]", true)}} <!--fp32, fp16 mixed precision, bf16 mixed precision, bf16 non-mixed precision, fp16 non-mixed precision, fp8 mixed precision -->
-
-#### Speeds, Sizes, Times [optional]
-
-<!-- This section provides information about throughput, start/end time, checkpoint size if relevant, etc. -->
-
-{{ speeds_sizes_times | default("[More Information Needed]", true)}}
-
-## Evaluation
-
-<!-- This section describes the evaluation protocols and provides the results. -->
-
-### Testing Data, Factors & Metrics
-
-#### Testing Data
-
-<!-- This should link to a Dataset Card if possible. -->
-
-{{ testing_data | default("[More Information Needed]", true)}}
-
-#### Factors
-
-<!-- These are the things the evaluation is disaggregating by, e.g., subpopulations or domains. -->
-
-{{ testing_factors | default("[More Information Needed]", true)}}
-
-#### Metrics
-
-<!-- These are the evaluation metrics being used, ideally with a description of why. Decision tresholds, model performance measures -->
-
-{{ testing_metrics | default("[More Information Needed]", true)}}
-
-### Results
-
-{{ results | default("[More Information Needed]", true)}}
-
-#### Summary
-
-{{ results_summary | default("", true) }}
-
-## Model Examination [optional]
-
-<!-- Relevant interpretability work for the model goes here -->
-
-{{ model_examination | default("[More Information Needed]", true)}}
-
-
-## Technical Specifications [optional]
-
-### Model Architecture and Objective
-
-{{ model_specs | default("[More Information Needed]", true)}}
-
-### Compute Infrastructure
-
-{{ compute_infrastructure | default("[More Information Needed]", true)}}
-
-#### Hardware
-
-{{ hardware_requirements | default("[More Information Needed]", true)}}
-
-#### Software
-
-{{ software | default("[More Information Needed]", true)}}
-
-## Citation [optional]
-
-<!-- If there is a paper or blog post introducing the model, the APA and Bibtex information for that should go in this section. -->
-
-
-## Glossary [optional]
-
-<!-- If relevant, include terms and calculations in this section that can help readers understand the model or model card. -->
-
-{{ glossary | default("[More Information Needed]", true)}}
-
-## More Information [optional]
-
-{{ more_information | default("[More Information Needed]", true)}}
-
-
-
-
+Joblib
