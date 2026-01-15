@@ -34,22 +34,14 @@ The dataset includes multi-year cotton field experiments conducted under differe
 
 ## Repository Structure
 The repository is organized as follows:
-├── data/ 
-# Raw and processed datasets
-├── models/
-# Trained machine learning models (.pkl files)
-├── notebooks/ 
-# Exploratory data analysis and experiments
-├── src/
-# Model training and preprocessing scripts
-├── cotton_et_model/ 
-# Evapotranspiration (ET) prediction subproject
-│ ├── README.md
-# Model-specific documentation
-│ └── modelcard.md 
-# Model Card
-├── datasetcard.md 
-# Dataset Card
+├── data/ # Raw and processed datasets
+├── models/# Trained machine learning models (.pkl files)
+├── notebooks/ # Exploratory data analysis and experiments
+├── src/# Model training and preprocessing scripts
+├── cotton_et_model/ # Evapotranspiration (ET) prediction subproject
+│ ├── README.md# Model-specific documentation
+│ └── modelcard.md # Model Card
+├── datasetcard.md # Dataset Card
 └── README.md # General project overview (this file)
 ---
 
